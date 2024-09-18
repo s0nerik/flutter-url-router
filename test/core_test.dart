@@ -14,7 +14,7 @@ UrlRouter getSinglePageRouter([String? initial, OnChangingCallback? onChanging])
     url: initial ?? '/',
     builder: (_, navigator) => Container(child: navigator),
     onChanging: onChanging,
-    onGeneratePages: (router) {
+    onGeneratePages: (context, router) {
       return [
         /// Create a single page that renders the current url
         MaterialPage(
