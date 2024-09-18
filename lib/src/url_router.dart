@@ -23,7 +23,7 @@ class UrlRouter extends RouterDelegate<String> with ChangeNotifier, PopNavigator
   final Widget Function(UrlRouter router, Widget navigator)? builder;
 
   /// Optionally provide a way for the parent to implement custom `onPopPage` logic.
-  final PopPageCallback? onPopPage;
+  final bool Function(BuildContext context, Route<dynamic> route, dynamic result)? onPopPage;
 
   /// Optionally invoked just prior to the location being changed.
   /// Allows a parent class to protect or redirect certain routes. The callback can return the original url to allow the location change,
@@ -97,7 +97,9 @@ class UrlRouter extends RouterDelegate<String> with ChangeNotifier, PopNavigator
     this.context = context;
     Widget content = Navigator(
       key: _navKey,
-      onPopPage: onPopPage ?? handlePopPage,
+      onPopPage: onPopPage != null
+          ? (route, settings) => onPopPage!(context, route, settings)
+          : handlePopPage,
       pages: pages,
     );
     if (builder != null) {
