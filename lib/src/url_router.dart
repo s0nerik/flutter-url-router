@@ -15,7 +15,7 @@ class UrlRouter extends RouterDelegate<String> with ChangeNotifier, PopNavigator
   /// Should build a stack of pages, based on the current location.
   /// This is technically optional, as you could decide to implement your
   /// own custom navigator inside the `builder`
-  final List<Page<dynamic>> Function(UrlRouter router)? onGeneratePages;
+  final List<Page<dynamic>> Function(BuildContext context, UrlRouter router)? onGeneratePages;
 
   /// Wrap widgets around the [MaterialApp]s [Navigator] widget.
   /// Primarily used for providing scaffolding like a `SideBar`, `TitleBar` around the page stack.
@@ -85,7 +85,7 @@ class UrlRouter extends RouterDelegate<String> with ChangeNotifier, PopNavigator
 
   @override
   Widget build(BuildContext context) {
-    final pages = onGeneratePages?.call(this) ?? [];
+    final pages = onGeneratePages?.call(context, this) ?? [];
     //TODO: Add more use cases for this, figure out if this is really what we want to do, or should we just always return false.
     bool handlePopPage(Route<dynamic> route, dynamic settings) {
       if (pages.length > 1 && route.didPop(settings)) {
